@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEON NOCTURNE | Game Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#c782ff",
+              "on-error": "#490013",
+              "inverse-primary": "#8534c4",
+              "on-tertiary-fixed-variant": "#760035",
+              "tertiary": "#ff6b98",
+              "on-primary-fixed": "#000000",
+              "tertiary-container": "#fc0078",
+              "secondary": "#00e3fd",
+              "surface-container-lowest": "#000000",
+              "secondary-fixed-dim": "#00d7f0",
+              "error-container": "#a70138",
+              "secondary-dim": "#00d4ec",
+              "on-error-container": "#ffb2b9",
+              "on-secondary-container": "#e8fbff",
+              "surface": "#0e0e11",
+              "on-tertiary-container": "#000000",
+              "surface-container-high": "#1f1f23",
+              "primary-container": "#c782ff",
+              "on-surface-variant": "#acaaae",
+              "surface-variant": "#25252a",
+              "inverse-surface": "#fcf8fd",
+              "surface-bright": "#2c2c30",
+              "surface-tint": "#d095ff",
+              "on-secondary": "#004d57",
+              "secondary-fixed": "#26e6ff",
+              "surface-container-low": "#131316",
+              "on-tertiary": "#47001d",
+              "outline": "#767579",
+              "on-primary-fixed-variant": "#450073",
+              "on-surface": "#f0edf1",
+              "background": "#0e0e11",
+              "on-tertiary-fixed": "#380015",
+              "surface-container-highest": "#25252a",
+              "surface-container": "#19191d",
+              "tertiary-fixed-dim": "#ff769e",
+              "outline-variant": "#48474b",
+              "surface-dim": "#0e0e11",
+              "on-primary": "#490078",
+              "primary-fixed-dim": "#bd6efe",
+              "on-background": "#f0edf1",
+              "on-secondary-fixed": "#003a42",
+              "primary-dim": "#c57eff",
+              "inverse-on-surface": "#555458",
+              "primary": "#d095ff",
+              "on-secondary-fixed-variant": "#005964",
+              "tertiary-dim": "#e4006c",
+              "error-dim": "#d73357",
+              "error": "#ff6e84",
+              "on-primary-container": "#38005e",
+              "secondary-container": "#006875",
+              "tertiary-fixed": "#ff8eac"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(37, 37, 42, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #d095ff 0%, #c782ff 100%);
+        }
+        .ambient-glow:hover {
+            box-shadow: 0 0 40px rgba(208, 149, 255, 0.15);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0e0e11;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #25252a;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #48474b;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary min-h-screen">
+<!-- Main Content Area (Now spans full width) -->
+<main class="max-w-[1600px] mx-auto pt-12 px-8 pb-12">
+<!-- Featured Hero Banner -->
+<section class="relative h-[600px] rounded-3xl overflow-hidden mb-16 group">
+<img alt="Featured Game" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Cinematic wide shot of a futuristic cyberpunk city at night with towering skyscrapers and vibrant neon signs in purple and blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf_2U105kuMwfzvuGnpElE8kQPCkeVtxxZX-_5NiX1uGFMMzK7LsKqfvvN9QlCYFa5zvtPXe17aiF82QeCIlh-hIhPG5Aw15xIVgr8WTVfRtgqvwT3Qxf0nb73yaQupk693Gwrf4nIwG6WGoKb9u1V4FoIbHZ6WPBdWGS3VwyZHin5SBAgujXK5ttTqKaeK7PUIrG-ajN0ltuwkuR6kg-e-Y2wwHHTVTmfEnjFHfWAG0V1H0x9dQHeI2o39bopxBRhWevD1fwzgtQ"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/40 to-transparent"></div>
+<div class="absolute inset-0 flex flex-col justify-center px-16 max-w-3xl">
+<div class="flex items-center gap-3 mb-6">
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-[0.2rem] backdrop-blur-sm border border-primary/30">FEATURED TITLE</span>
+<span class="bg-secondary/20 text-secondary px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-[0.2rem] backdrop-blur-sm border border-secondary/30">NEW UPDATE</span>
+</div>
+<h1 class="font-headline text-7xl font-black text-on-surface mb-6 leading-none tracking-tighter">VOID RUNNER 2099</h1>
+<p class="text-on-surface-variant text-xl mb-10 font-medium leading-relaxed max-w-2xl">Experience the high-octane pursuit through the neural networks of a dying megacity. Now with Ray-Tracing and over 40 hours of new story content.</p>
+<div class="flex items-center gap-6">
+<button class="primary-gradient text-on-primary-container px-12 py-5 rounded-full font-bold text-xl flex items-center gap-3 transition-transform hover:scale-105 active:scale-95 shadow-2xl shadow-primary/20">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        PLAY NOW
+                    </button>
+<button class="bg-surface-container-highest/60 backdrop-blur-md text-on-surface px-10 py-5 rounded-full font-bold border border-outline-variant/20 hover:bg-surface-container-highest transition-all">
+                        VIEW DETAILS
+                    </button>
+</div>
+</div>
+</section>
+<!-- Library Section Header -->
+<div class="flex items-center justify-between mb-10">
+<div>
+<h2 class="font-headline text-3xl font-bold text-on-surface flex items-center gap-3">
+                    ALL GAMES
+                    <span class="text-on-surface-variant font-medium text-xl ml-2">24</span>
+</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="bg-surface-container-low rounded-full flex items-center px-6 py-2.5 gap-3 group border border-outline-variant/15 mr-4">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-xs font-label uppercase tracking-widest p-0 w-64 placeholder:text-outline" placeholder="SEARCH LIBRARY" type="text"/>
+</div>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-on-surface transition-colors font-label uppercase tracking-widest text-xs">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                    FILTER
+                </button>
+<div class="h-5 w-[1px] bg-outline-variant/30"></div>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-on-surface transition-colors font-label uppercase tracking-widest text-xs">
+                    RECENTLY PLAYED
+                    <span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Game Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+<!-- Game Card 1 -->
+<div class="group relative flex flex-col">
+<div class="aspect-[16/10] rounded-xl overflow-hidden bg-surface-container-high relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]">
+<img alt="Ethereal Odyssey" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Dramatic fantasy landscape with floating islands and purple nebula sky, high contrast atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB074TB88fEXlPPS8m0V1LSlSvTYVgYqJoHqvXb0k2K1IPW7iFn6nULK8eEJpL1OA8sGAcDd5ajWTWNc_1LcyyoX-YjdMfOqMLfWoAq2-DIn1zhGdYMCJq7nkvpDa24cAF15Z_jVcPYs-UAb7czClrAmvOZ7UELuE9SDHRC4WapKdpgbb6ndOIwxfKjpTLJ63Dpo-s3bcxAlq54V0C-ALDbfQXque3q0Engxh8Cx7pPI0mdvAQqC2nsj_r5LOFKUT853CiZkxJEkKs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+<button class="primary-gradient text-on-primary-container w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                            PLAY
+                        </button>
+</div>
+<div class="absolute top-4 right-4 bg-surface-container-lowest/60 backdrop-blur-md px-3 py-1 rounded-md border border-outline-variant/10">
+<span class="text-[10px] font-black tracking-widest">12.4 GB</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Ethereal Odyssey</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">RPG / ADVENTURE</span>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">12h PLAYED</span>
+</div>
+</div>
+</div>
+<!-- Game Card 2 -->
+<div class="group relative flex flex-col">
+<div class="aspect-[16/10] rounded-xl overflow-hidden bg-surface-container-high relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]">
+<img alt="Neon Drift" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Top down view of a futuristic sports car racing through a glowing cyan and pink neon track at high speed" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxuXz0DsQiviYuEKKRU7-d2lEzI24Acw6y9McLP_OLPKnICnFYkaJ_KM3axj-zvDxLohz7hA6sYw4QCX7V8LhWB_3_jewD2315-INrByouWhp5BGBRBWd20804T7oalge1rrlRvYkH4Yfn8mee7TGrXlVNLFgLnnGQW4yTK8y3ZQlTaDyQ9YWJl9ZLS-xXew1YEjBXcC9fCPkO6W1OmEfj5bIbZ23WhuyxFgTnyP7an_1SB7gTuI_WHpDWjbX6txjSA1qEYKBVuuM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+<button class="primary-gradient text-on-primary-container w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                            PLAY
+                        </button>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Neon Drift</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">RACING / ARCADE</span>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">84h PLAYED</span>
+</div>
+</div>
+</div>
+<!-- Game Card 3 -->
+<div class="group relative flex flex-col">
+<div class="aspect-[16/10] rounded-xl overflow-hidden bg-surface-container-high relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]">
+<img alt="Shadow Protocol" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Gritty industrial setting with deep shadows and sharp blue lens flare, mysterious figure in tactical gear silhouetted" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu9gB14a520f1d683yb1hhur0wOgfqaJuxNmCL_ZxMgiuJP_xZ6XI58OTuuhzhHuUeFzAcwc_H2XiqRR3caNY8LIQ1QpHNVLpmmjGgDhl8sVCuhjl-fVuYuZE_qKkO4pfUfPXQA2vnZWYdtFXwP7ZT835mTUP0_iPM9U5FY2uRr31frlR2zixzCpYy-0rxJHioljDui48tsZoa7CbVvOSkYlcZ-oPX2_jRG5h2Y9zEJRA3Mhy07fLFdBdGgCXd448JZgbE3ntPJhw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+<button class="primary-gradient text-on-primary-container w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                            PLAY
+                        </button>
+</div>
+<div class="absolute top-4 left-4 bg-tertiary/20 backdrop-blur-md px-3 py-1 rounded-md border border-tertiary/30">
+<span class="text-[10px] font-black tracking-widest text-tertiary">UPDATE QUEUED</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Shadow Protocol</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">STEALTH / FPS</span>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">243h PLAYED</span>
+</div>
+</div>
+</div>
+<!-- Game Card 4 -->
+<div class="group relative flex flex-col">
+<div class="aspect-[16/10] rounded-xl overflow-hidden bg-surface-container-high relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]">
+<img alt="Stellar Forge" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Vibrant outer space scene with a massive golden sun rising behind a futuristic orbital space station" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm4QKnEteby7KyC2tfiJ3J2Q-ixG77Fqd5-nmalMm72uzplxx-JtAON50savB79BKfwPkU-bWu0trBbryYGgA2RJ8R3vFrr3z3eyxLE_LjYRlmOxbyQTdouqSXIUZ-hzqQ4RGoO7ap59BRnlL0t9Ij1uTqwOWRNn5nldjEnevIfdzDeVqfD0NP2NwYKlIGkpZIwRjVqF84x9sPUIagCE1SZ2eBwO4oQmQ7JbSX6rR-l7PWETfA1HHdBBfosujID2l8g0IWyQu-9io"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+<button class="primary-gradient text-on-primary-container w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                            PLAY
+                        </button>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Stellar Forge</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">STRATEGY / SCI-FI</span>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">0h PLAYED</span>
+</div>
+</div>
+</div>
+<!-- Game Card 5 -->
+<div class="group relative flex flex-col">
+<div class="aspect-[16/10] rounded-xl overflow-hidden bg-surface-container-high relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]">
+<img alt="Frostbite" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Cinematic close-up of a snowy mountain peak at dusk with ethereal blue light and swirling snow particles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1hCM9q8xpSj6pSY3g7HvT9ctZh5u3zLHBVsvWusI7OH-HGcFrlJY-VexVstqQFUGWdoo6GyRZAzTGuWGjbrfrPcmw5tR1jbNUuat_E18VvQgP3ShIOuUkQKgIWeQF2wAf9q5gQ9TWkBnfUyvjpf4gY12LKmKN-G7LqKwlXOYH_6R3dvbH7NAI9Kn8HTlkmFawNl8u9k2ikj01vDarF_RErYW9W1mPvnQMwNM25k2eTQP7bVi3lau60ICTwB9sL5Tb6yQnRknVpTE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+<button class="primary-gradient text-on-primary-container w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                            PLAY
+                        </button>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Frostbite</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">SURVIVAL / HORROR</span>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">32h PLAYED</span>
+</div>
+</div>
+</div>
+<!-- Game Card 6 -->
+<div class="group relative flex flex-col">
+<div class="aspect-[16/10] rounded-xl overflow-hidden bg-surface-container-high relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]">
+<img alt="Zenith Protocol" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Abstract digital landscape with geometric shapes and flowing energy lines in electric blue and deep purple" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsv7OOefDMIz-0TQUeQhC1_5vJFLm6DAEgtttCEiv6AfBQ4_SCJpU4JAgyBDcHbIZqA6G0AMJKbtdkhdlDeUGiZvQK8eccXOPVWSSSIzz_1hgUjVQgm7I5pf3HXCjM8CPv9uQnDl16DR1iLBYZnJ7xOGTFsNDJx2kL1N_YmDrvMDFWf1dzU_R_nHII8sw82oRHlcp3z0_Sw5n42IY2H4QaswOV9VeyCtwZBO82jkCOEdz8c0jXzXvbABekxKVn0haFMbL4_hZROKE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+<button class="primary-gradient text-on-primary-container w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                            PLAY
+                        </button>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Zenith Protocol</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">PUZZLE / STRATEGY</span>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">4h PLAYED</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

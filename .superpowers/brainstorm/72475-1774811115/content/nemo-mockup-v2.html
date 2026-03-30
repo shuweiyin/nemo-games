@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#d095ff",
+        "primary-container": "#c782ff",
+        "on-primary-container": "#38005e",
+        "secondary": "#00e3fd",
+        "surface": "#0e0e11",
+        "surface-container-low": "#131316",
+        "surface-container": "#19191d",
+        "surface-container-high": "#1f1f23",
+        "surface-container-highest": "#25252a",
+        "surface-container-lowest": "#000000",
+        "on-surface": "#f0edf1",
+        "on-surface-variant": "#acaaae",
+        "outline-variant": "#48474b",
+      },
+      fontFamily: {
+        "headline": ["Space Grotesk", "sans-serif"],
+        "body": ["Manrope", "sans-serif"],
+      },
+    }
+  }
+}
+</script>
+<style>
+  body { background: #0e0e11; color: #f0edf1; font-family: 'Manrope', sans-serif; }
+  .primary-gradient { background: linear-gradient(135deg, #d095ff 0%, #c782ff 100%); }
+  .ambient-glow:hover { box-shadow: 0 0 40px rgba(208,149,255,0.15); }
+
+  /* Modal overlay */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal-box {
+    background: #19191d;
+    border-radius: 1.25rem;
+    width: 90vw;
+    max-width: 1100px;
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.25s ease;
+    box-shadow: 0 0 80px rgba(208,149,255,0.12);
+  }
+  .modal-overlay.open .modal-box {
+    transform: scale(1);
+  }
+  .modal-header {
+    background: #131316;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-iframe-area {
+    width: 100%;
+    height: 600px;
+    background: #0e0e11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- Top Nav -->
+<nav style="background:#131316;" class="px-10 py-5 flex items-center justify-between">
+  <span class="font-headline font-black text-2xl tracking-tight" style="color:#d095ff;">NEMO'S GAMES</span>
+  <span style="color:#acaaae;font-size:11px;letter-spacing:0.15em;font-family:'Manrope'" class="uppercase">10 GAMES</span>
+</nav>
+
+<!-- Page Header -->
+<main class="max-w-[1400px] mx-auto px-10 pt-14 pb-16">
+  <div class="mb-12">
+    <h1 class="font-headline text-5xl font-black tracking-tighter mb-2" style="color:#f0edf1;">ALL GAMES</h1>
+    <p style="color:#acaaae;" class="text-sm">Click any game to start playing</p>
+  </div>
+
+  <!-- 4-col game grid -->
+  <div class="grid grid-cols-4 gap-8">
+    <!-- Card 1 -->
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 1')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,#1a0a2e,#0d1b2a);">
+          <span style="font-size:2.5rem;">🎮</span>
+        </div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 1</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+    <!-- Cards 2–10 (abbreviated) -->
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 2')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#0a1a2e,#1a0d2e);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 2</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 3')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#0a2e1a,#0a1a2e);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 3</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 4')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#2e1a0a,#1a0a2e);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 4</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 5')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#1a2e0a,#0a2e2e);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 5</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 6')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#2e0a1a,#2e2a0a);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 6</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 7')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#0a2e2e,#2e0a2e);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 7</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 8')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#2e2e0a,#0a0a2e);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 8</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 9')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#1a0a0a,#0a1a1a);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 9</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+    <div class="group flex flex-col cursor-pointer" onclick="openModal('Game Title 10')">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#0a0a0a,#1a1a0a);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 10</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">By Nemo</span>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===== MODAL OVERLAY ===== -->
+<div class="modal-overlay" id="gameModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div>
+        <span id="modalGameTitle" class="font-headline font-bold text-lg" style="color:#f0edf1;"></span>
+      </div>
+      <button onclick="closeModal()" class="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors hover:bg-white/5"
+              style="color:#acaaae;font-size:12px;letter-spacing:0.1em;font-family:'Manrope';">
+        ✕ &nbsp;CLOSE
+      </button>
+    </div>
+    <!-- iframe area -->
+    <div class="modal-iframe-area">
+      <!-- In real site, iframe src is set dynamically per game -->
+      <div style="text-align:center;">
+        <div style="font-size:3rem;margin-bottom:12px;">🎮</div>
+        <span style="color:#acaaae;font-size:12px;letter-spacing:0.1em;font-family:'Manrope';" class="uppercase">Game loads here as iframe</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal(title) {
+    document.getElementById('modalGameTitle').textContent = title;
+    document.getElementById('gameModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('gameModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('gameModal')) closeModal();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>

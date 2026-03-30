@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nemo's Games</title>
-  <meta name="description" content="Nemo's curated game library — 10 games, play in your browser."/>
+  <meta name="description" content="Nemo's curated game library — 10 games, play in your browser." />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            'primary':                  '#d095ff',
-            'primary-container':        '#c782ff',
-            'on-primary-container':     '#38005e',
-            'secondary':                '#00e3fd',
-            'surface':                  '#0e0e11',
-            'surface-container-low':    '#131316',
-            'surface-container':        '#19191d',
-            'surface-container-high':   '#1f1f23',
-            'surface-container-highest':'#25252a',
+            'primary': '#d095ff',
+            'primary-container': '#c782ff',
+            'on-primary-container': '#38005e',
+            'secondary': '#00e3fd',
+            'surface': '#0e0e11',
+            'surface-container-low': '#131316',
+            'surface-container': '#19191d',
+            'surface-container-high': '#1f1f23',
+            'surface-container-highest': '#25252a',
             'surface-container-lowest': '#000000',
-            'on-surface':               '#f0edf1',
-            'on-surface-variant':       '#acaaae',
-            'outline-variant':          '#48474b',
+            'on-surface': '#f0edf1',
+            'on-surface-variant': '#acaaae',
+            'outline-variant': '#48474b',
           },
           fontFamily: {
             headline: ['Space Grotesk', 'sans-serif'],
-            body:     ['Manrope', 'sans-serif'],
-            label:    ['Manrope', 'sans-serif'],
+            body: ['Manrope', 'sans-serif'],
+            label: ['Manrope', 'sans-serif'],
           },
           borderRadius: {
             DEFAULT: '0.25rem',
-            lg:   '0.5rem',
-            xl:   '0.75rem',
-            '2xl':'1rem',
-            '3xl':'1.25rem',
+            lg: '0.5rem',
+            xl: '0.75rem',
+            '2xl': '1rem',
+            '3xl': '1.25rem',
             full: '9999px',
           },
         },
@@ -49,48 +52,76 @@
     .primary-gradient {
       background: linear-gradient(135deg, #d095ff 0%, #c782ff 100%);
     }
+
     /* Ambient glow on card hover */
     .ambient-glow:hover {
       box-shadow: 0 0 40px rgba(208, 149, 255, 0.15);
     }
+
     /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0e0e11; }
-    ::-webkit-scrollbar-thumb { background: #25252a; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #48474b; }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0e0e11;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #25252a;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #48474b;
+    }
+
     /* Modal */
     #modal-overlay {
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 50;
-      opacity: 0; pointer-events: none;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity 0.25s ease;
     }
+
     #modal-overlay.open {
-      opacity: 1; pointer-events: auto;
+      opacity: 1;
+      pointer-events: auto;
     }
+
     #modal-box {
       background: #19191d;
       border-radius: 1.25rem;
-      width: 90vw; max-width: 1100px;
+      width: 90vw;
+      max-width: 1100px;
       overflow: hidden;
       box-shadow: 0 0 80px rgba(208, 149, 255, 0.12);
       transform: scale(0.95);
       transition: transform 0.25s ease;
     }
+
     #modal-overlay.open #modal-box {
       transform: scale(1);
     }
+
     #modal-iframe {
-      width: 100%; height: 600px;
-      border: none; display: block;
+      width: 100%;
+      height: 600px;
+      border: none;
+      display: block;
       background: #0e0e11;
     }
   </style>
 </head>
+
 <body class="bg-surface text-on-surface font-body min-h-screen">
 
   <!-- NAV -->
@@ -98,8 +129,7 @@
     <span class="font-headline font-black text-2xl tracking-tight text-primary">
       NEMO'S GAMES
     </span>
-    <span id="nav-count"
-          class="font-label uppercase tracking-widest text-xs text-on-surface-variant">
+    <span id="nav-count" class="font-label uppercase tracking-widest text-xs text-on-surface-variant">
       10 GAMES
     </span>
   </nav>
@@ -119,23 +149,16 @@
   <div id="modal-overlay">
     <div id="modal-box">
       <!-- Modal header -->
-      <div class="flex items-center justify-between px-6 py-4"
-           style="background:#131316;">
-        <span id="modal-title"
-              class="font-headline font-bold text-lg text-on-surface"></span>
-        <button id="modal-close"
-                class="font-label uppercase tracking-widest text-xs
+      <div class="flex items-center justify-between px-6 py-4" style="background:#131316;">
+        <span id="modal-title" class="font-headline font-bold text-lg text-on-surface"></span>
+        <button id="modal-close" class="font-label uppercase tracking-widest text-xs
                        text-on-surface-variant hover:text-on-surface
                        transition-colors px-4 py-2 rounded-lg hover:bg-white/5">
           ✕ &nbsp;CLOSE
         </button>
       </div>
       <!-- iframe -->
-      <iframe id="modal-iframe"
-              title="Game"
-              frameborder="0"
-              allow="clipboard-write"
-              allowfullscreen>
+      <iframe id="modal-iframe" title="Game" frameborder="0" allow="clipboard-write" allowfullscreen>
       </iframe>
     </div>
   </div>
@@ -145,17 +168,17 @@
       {
         id: 1,
         title: 'Game 1',
-        thumbnail: '',
+        thumbnail: 'images/game1.png',
         iframeSrc: 'https://claude.site/public/artifacts/80f69371-7e8b-4992-beed-46fcbcb8c76e/embed',
       },
-      { id: 2,  title: 'Game 2',  thumbnail: '', iframeSrc: '' },
-      { id: 3,  title: 'Game 3',  thumbnail: '', iframeSrc: '' },
-      { id: 4,  title: 'Game 4',  thumbnail: '', iframeSrc: '' },
-      { id: 5,  title: 'Game 5',  thumbnail: '', iframeSrc: '' },
-      { id: 6,  title: 'Game 6',  thumbnail: '', iframeSrc: '' },
-      { id: 7,  title: 'Game 7',  thumbnail: '', iframeSrc: '' },
-      { id: 8,  title: 'Game 8',  thumbnail: '', iframeSrc: '' },
-      { id: 9,  title: 'Game 9',  thumbnail: '', iframeSrc: '' },
+      { id: 2, title: 'Game 2', thumbnail: '', iframeSrc: '' },
+      { id: 3, title: 'Game 3', thumbnail: '', iframeSrc: '' },
+      { id: 4, title: 'Game 4', thumbnail: '', iframeSrc: '' },
+      { id: 5, title: 'Game 5', thumbnail: '', iframeSrc: '' },
+      { id: 6, title: 'Game 6', thumbnail: '', iframeSrc: '' },
+      { id: 7, title: 'Game 7', thumbnail: '', iframeSrc: '' },
+      { id: 8, title: 'Game 8', thumbnail: '', iframeSrc: '' },
+      { id: 9, title: 'Game 9', thumbnail: '', iframeSrc: '' },
       { id: 10, title: 'Game 10', thumbnail: '', iframeSrc: '' },
     ];
 
@@ -207,9 +230,9 @@
     document.getElementById('nav-count').textContent =
       GAMES.length + (GAMES.length === 1 ? ' GAME' : ' GAMES');
 
-    const overlay     = document.getElementById('modal-overlay');
+    const overlay = document.getElementById('modal-overlay');
     const modalIframe = document.getElementById('modal-iframe');
-    const modalTitle  = document.getElementById('modal-title');
+    const modalTitle = document.getElementById('modal-title');
 
     function openModal(game) {
       modalTitle.textContent = game.title;
@@ -239,4 +262,5 @@
   </script>
 
 </body>
+
 </html>

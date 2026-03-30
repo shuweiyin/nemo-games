@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#d095ff",
+        "primary-container": "#c782ff",
+        "on-primary-container": "#38005e",
+        "secondary": "#00e3fd",
+        "surface": "#0e0e11",
+        "surface-container-low": "#131316",
+        "surface-container": "#19191d",
+        "surface-container-high": "#1f1f23",
+        "surface-container-highest": "#25252a",
+        "surface-container-lowest": "#000000",
+        "on-surface": "#f0edf1",
+        "on-surface-variant": "#acaaae",
+        "outline-variant": "#48474b",
+      },
+      fontFamily: {
+        "headline": ["Space Grotesk", "sans-serif"],
+        "body": ["Manrope", "sans-serif"],
+      },
+    }
+  }
+}
+</script>
+<style>
+  body { background: #0e0e11; color: #f0edf1; font-family: 'Manrope', sans-serif; }
+  .primary-gradient { background: linear-gradient(135deg, #d095ff 0%, #c782ff 100%); }
+  .ambient-glow:hover { box-shadow: 0 0 40px rgba(208,149,255,0.15); }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- Top Nav -->
+<nav style="background:#131316;" class="px-10 py-5 flex items-center justify-between">
+  <span class="font-headline font-black text-2xl tracking-tight" style="color:#d095ff;">NEMO'S GAMES</span>
+  <span style="color:#acaaae;font-size:11px;letter-spacing:0.15em;font-family:'Manrope'" class="uppercase">10 GAMES</span>
+</nav>
+
+<!-- Page Header -->
+<main class="max-w-[1400px] mx-auto px-10 pt-14 pb-16">
+  <div class="mb-12">
+    <h1 class="font-headline text-5xl font-black tracking-tighter mb-2" style="color:#f0edf1;">ALL GAMES</h1>
+    <p style="color:#acaaae;" class="text-sm">Click any game to start playing</p>
+  </div>
+
+  <!-- 4-col game grid -->
+  <div class="grid grid-cols-4 gap-8">
+
+    <!-- Card 1 — active/featured style -->
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <!-- Placeholder thumbnail — first game iframe preview -->
+        <div class="w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,#1a0a2e,#0d1b2a);">
+          <div class="text-center">
+            <div class="text-4xl mb-2">🎮</div>
+            <span style="color:#acaaae;font-size:10px;letter-spacing:0.1em;" class="uppercase">Game Preview</span>
+          </div>
+        </div>
+        <!-- Hover overlay with PLAY -->
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">
+            ▶ PLAY
+          </button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 1</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+
+    <!-- Cards 2–10 (placeholder style) -->
+    <!-- Card 2 -->
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,#0a1a2e,#1a0d2e);">
+          <div class="text-4xl">🕹️</div>
+        </div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 2</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,#0a2e1a,#0a1a2e);">
+          <div class="text-4xl">🎲</div>
+        </div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 3</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,#2e1a0a,#1a0a2e);">
+          <div class="text-4xl">🏆</div>
+        </div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 4</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+
+    <!-- Cards 5–8 second row -->
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#1a2e0a,#0a2e2e);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 5</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#2e0a1a,#2e2a0a);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 6</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#0a2e2e,#2e0a2e);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 7</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#2e2e0a,#0a0a2e);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 8</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+
+    <!-- Cards 9–10 third row -->
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#1a0a0a,#0a1a1a);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 9</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+    <div class="group flex flex-col cursor-pointer">
+      <div class="aspect-video rounded-xl overflow-hidden relative mb-4 transition-all duration-300 ambient-glow group-hover:scale-[1.02]" style="background:#1f1f23;">
+        <div class="w-full h-full" style="background:linear-gradient(135deg,#0a0a0a,#1a1a0a);"></div>
+        <div class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity" style="background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);">
+          <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2" style="color:#38005e;">▶ PLAY</button>
+        </div>
+      </div>
+      <h3 class="font-headline font-bold text-base group-hover:text-[#d095ff] transition-colors mb-1">Game Title 10</h3>
+      <span style="color:#acaaae;font-size:10px;letter-spacing:0.12em;" class="uppercase">BY NEMO</span>
+    </div>
+
+  </div>
+</main>
+
+<!-- Game Page Preview (below fold) -->
+<div style="background:#131316;" class="mt-4 px-10 py-12">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="flex items-center gap-4 mb-8">
+      <button style="color:#acaaae;font-size:12px;letter-spacing:0.1em;" class="uppercase hover:text-[#d095ff] transition-colors">← BACK TO LIBRARY</button>
+    </div>
+    <h2 class="font-headline font-black text-4xl tracking-tighter mb-8">Game Title 1</h2>
+    <!-- iframe embed area -->
+    <div class="rounded-2xl overflow-hidden" style="background:#0e0e11;">
+      <div class="w-full flex items-center justify-center" style="height:500px;background:linear-gradient(135deg,#1a0a2e,#0d1b2a);border-radius:1rem;">
+        <div class="text-center">
+          <div class="text-6xl mb-4">🎮</div>
+          <span style="color:#acaaae;font-size:12px;letter-spacing:0.1em;" class="uppercase">Game iframe loads here (600px tall)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
