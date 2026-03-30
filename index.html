@@ -116,6 +116,29 @@
     </div>
   </main>
   <!-- MODAL -->
+  <div id="modal-overlay">
+    <div id="modal-box">
+      <!-- Modal header -->
+      <div class="flex items-center justify-between px-6 py-4"
+           style="background:#131316;">
+        <span id="modal-title"
+              class="font-headline font-bold text-lg text-on-surface"></span>
+        <button id="modal-close"
+                class="font-label uppercase tracking-widest text-xs
+                       text-on-surface-variant hover:text-on-surface
+                       transition-colors px-4 py-2 rounded-lg hover:bg-white/5">
+          ✕ &nbsp;CLOSE
+        </button>
+      </div>
+      <!-- iframe -->
+      <iframe id="modal-iframe"
+              title="Game"
+              frameborder="0"
+              allow="clipboard-write"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </div>
   <!-- SCRIPT -->
   <script>
     const GAMES = [
@@ -181,6 +204,36 @@
     }
 
     renderGrid();
+
+    const overlay     = document.getElementById('modal-overlay');
+    const modalIframe = document.getElementById('modal-iframe');
+    const modalTitle  = document.getElementById('modal-title');
+
+    function openModal(game) {
+      modalTitle.textContent = game.title;
+      if (game.iframeSrc) {
+        modalIframe.src = game.iframeSrc;
+      } else {
+        modalIframe.src = 'about:blank';
+      }
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      // Clear src after transition so game audio stops
+      setTimeout(() => { modalIframe.src = 'about:blank'; }, 260);
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
   </script>
 
 </body>
