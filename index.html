@@ -204,6 +204,8 @@
     }
 
     renderGrid();
+    document.getElementById('nav-count').textContent =
+      GAMES.length + (GAMES.length === 1 ? ' GAME' : ' GAMES');
 
     const overlay     = document.getElementById('modal-overlay');
     const modalIframe = document.getElementById('modal-iframe');
