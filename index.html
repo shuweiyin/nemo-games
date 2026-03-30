@@ -104,6 +104,17 @@
     </span>
   </nav>
   <!-- GRID -->
+  <main class="max-w-[1400px] mx-auto px-10 pt-14 pb-16">
+    <div class="mb-12">
+      <h1 class="font-headline text-5xl font-black tracking-tighter mb-2 text-on-surface">
+        ALL GAMES
+      </h1>
+      <p class="text-sm text-on-surface-variant">Click any game to start playing</p>
+    </div>
+    <div id="game-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <!-- Cards injected by JS -->
+    </div>
+  </main>
   <!-- MODAL -->
   <!-- SCRIPT -->
   <script>
@@ -124,6 +135,52 @@
       { id: 9,  title: 'Game 9',  thumbnail: '', iframeSrc: '' },
       { id: 10, title: 'Game 10', thumbnail: '', iframeSrc: '' },
     ];
+
+    function buildCard(game) {
+      const thumbnailHtml = game.thumbnail
+        ? `<img src="${game.thumbnail}" alt="${game.title}"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>`
+        : `<div class="w-full h-full flex items-center justify-center"
+                style="background:linear-gradient(135deg,#1a0a2e,#0d1b2a);">
+             <span class="text-4xl">🎮</span>
+           </div>`;
+
+      const card = document.createElement('div');
+      card.className = 'group flex flex-col cursor-pointer';
+      card.innerHTML = `
+        <div class="aspect-video rounded-xl overflow-hidden relative mb-4
+                    transition-all duration-300 ambient-glow group-hover:scale-[1.02]
+                    bg-surface-container-high">
+          ${thumbnailHtml}
+          <div class="absolute inset-0 flex items-end p-4 opacity-0
+                      group-hover:opacity-100 transition-opacity duration-300"
+               style="background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,transparent 60%);">
+            <button class="primary-gradient w-full py-2.5 rounded-lg font-bold text-sm
+                           flex items-center justify-center gap-2
+                           transition-transform active:scale-95"
+                    style="color:#38005e;">
+              ▶ PLAY
+            </button>
+          </div>
+        </div>
+        <h3 class="font-headline font-bold text-base
+                   group-hover:text-primary transition-colors mb-1">
+          ${game.title}
+        </h3>
+        <span class="font-label uppercase tracking-widest text-xs text-on-surface-variant">
+          By Nemo
+        </span>
+      `;
+      card.addEventListener('click', () => openModal(game));
+      return card;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('game-grid');
+      GAMES.forEach(game => grid.appendChild(buildCard(game)));
+    }
+
+    renderGrid();
   </script>
 
 </body>
