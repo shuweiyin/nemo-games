@@ -171,7 +171,7 @@
         thumbnail: 'images/space-shoot.png',
         iframeSrc: 'https://claude.site/public/artifacts/8776558a-60b3-41b8-b9d2-e058283bd87c/embed',
       },
-      { id: 2, title: 'Fishing', thumbnail: 'images/fishing.png', iframeSrc: 'https://nemo-games.vercel.app/' },
+      { id: 2, title: 'Fishing', thumbnail: 'images/fishing.png', iframeSrc: 'https://nemo-games.vercel.app/', openInNewWindow: true },
       { id: 3, title: 'Game 3', thumbnail: '', iframeSrc: '' },
       { id: 4, title: 'Game 4', thumbnail: '', iframeSrc: '' },
       { id: 5, title: 'Game 5', thumbnail: '', iframeSrc: '' },
@@ -235,6 +235,10 @@
     const modalTitle = document.getElementById('modal-title');
 
     function openModal(game) {
+      if (game.openInNewWindow && game.iframeSrc) {
+        window.open(game.iframeSrc, '_blank');
+        return;
+      }
       modalTitle.textContent = game.title;
       if (game.iframeSrc) {
         modalIframe.src = game.iframeSrc;
