@@ -570,71 +570,91 @@ export default function GameCanvas({ engine, state }) {
   function drawScene(ctx, r, engine) {
     ctx.clearRect(0, 0, CW, VH);
 
+    // Camera offset: converts virtual depth to canvas Y within the ocean section
+    const cameraY = r.cameraY ?? 0;
+    const toScreen = (depth) => WATER_SY + depth - cameraY;
+
     // Fill entire canvas
     ctx.fillStyle = '#4a96d0';
     ctx.fillRect(0, 0, CW, VH);
 
-    // SKY — fixed 0..WATER_SY
-    const sky = ctx.createLinearGradient(0, 0, 0, WATER_SY);
-    sky.addColorStop(0, '#4a96d0');
-    sky.addColorStop(1, '#a0d4f0');
-    ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, CW, WATER_SY);
+    // SKY — scrolls up with camera
+    const skyTop = -cameraY;
+    const skyBottom = WATER_SY - cameraY;
+    if (skyBottom > 0) {
+      const sky = ctx.createLinearGradient(0, skyTop, 0, skyBottom);
+      sky.addColorStop(0, '#4a96d0');
+      sky.addColorStop(1, '#a0d4f0');
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, Math.max(0, skyTop), CW, Math.min(skyBottom, VH) - Math.max(0, skyTop));
+    }
 
-    // sun
-    ctx.fillStyle = '#fff8c0';
-    ctx.beginPath();
-    ctx.arc(CW - 120, 50, 28, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(255,240,100,0.12)';
-    ctx.beginPath();
-    ctx.arc(CW - 120, 50, 52, 0, Math.PI * 2);
-    ctx.fill();
+    // sun — scrolls with sky
+    const sunY = 50 - cameraY;
+    if (sunY > -52 && sunY < VH) {
+      ctx.fillStyle = '#fff8c0';
+      ctx.beginPath();
+      ctx.arc(CW - 120, sunY, 28, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = 'rgba(255,240,100,0.12)';
+      ctx.beginPath();
+      ctx.arc(CW - 120, sunY, 52, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
-    // clouds
-    [
-      [200, 80, 60, 20],
-      [550, 60, 80, 24],
-      [850, 75, 55, 18],
-    ].forEach(([cx, cy, cw2, ch2]) => {
-      ctx.fillStyle = 'rgba(255,255,255,0.92)';
-      ctx.beginPath();
-      ctx.ellipse(cx, cy, cw2, ch2, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.ellipse(cx - cw2 * 0.4, cy + ch2 * 0.3, cw2 * 0.55, ch2 * 0.7, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.ellipse(cx + cw2 * 0.4, cy + ch2 * 0.3, cw2 * 0.55, ch2 * 0.7, 0, 0, Math.PI * 2);
-      ctx.fill();
-    });
+    // clouds — scroll with sky
+    if (skyBottom > 0) {
+      [
+        [200, 80, 60, 20],
+        [550, 60, 80, 24],
+        [850, 75, 55, 18],
+      ].forEach(([cx, cy, cw2, ch2]) => {
+        const cloudY = cy - cameraY;
+        if (cloudY < -ch2 || cloudY > VH) return;
+        ctx.fillStyle = 'rgba(255,255,255,0.92)';
+        ctx.beginPath();
+        ctx.ellipse(cx, cloudY, cw2, ch2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx - cw2 * 0.4, cloudY + ch2 * 0.3, cw2 * 0.55, ch2 * 0.7, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx + cw2 * 0.4, cloudY + ch2 * 0.3, cw2 * 0.55, ch2 * 0.7, 0, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
 
-    // OCEAN — WATER_SY to VH
-    const df = Math.min(1, r.hookDepth / OCEAN_D);
-    const oc = ctx.createLinearGradient(0, WATER_SY, 0, VH);
-    oc.addColorStop(0, '#1a90d4');
+    // OCEAN — spans from water surface (or canvas top if camera scrolled) to VH
+    // Bug fix: use mouseDepth for immediate color response (already includes cameraY)
+    const df = Math.min(1, r.mouseDepth / OCEAN_D);
+    const oceanTop = Math.max(0, WATER_SY - cameraY);
+    const oc = ctx.createLinearGradient(0, oceanTop, 0, VH);
+    oc.addColorStop(0, cameraY > 100 ? '#0d60a0' : '#1a90d4');
     oc.addColorStop(0.3, df < 0.4 ? '#0d60a0' : '#063060');
     oc.addColorStop(0.7, df < 0.6 ? '#063368' : '#021428');
     oc.addColorStop(1, df < 0.8 ? '#042050' : '#010510');
     ctx.fillStyle = oc;
-    ctx.fillRect(0, WATER_SY, CW, VH - WATER_SY);
+    ctx.fillRect(0, oceanTop, CW, VH - oceanTop);
 
-    // surface shimmer + waves
-    ctx.fillStyle = 'rgba(100,200,255,0.05)';
+    // surface shimmer + waves (only visible when water surface is on screen)
+    const surfaceY = WATER_SY - cameraY;
     const t = Date.now();
-    for (let i = 0; i < 20; i++) {
-      const sx = (i * 117 + t * 0.025) % CW;
-      ctx.fillRect(sx, WATER_SY, 28 + Math.sin(t * 0.003 + i) * 12, 3);
-    }
-    ctx.strokeStyle = 'rgba(255,255,255,0.28)';
-    ctx.lineWidth = 1.8;
-    for (let w = 0; w < 3; w++) {
-      ctx.beginPath();
-      for (let i = 0; i <= CW; i += 6) {
-        const sy = WATER_SY + Math.sin(i * 0.015 + r.waveOff + w * 1.1) * 5;
-        i === 0 ? ctx.moveTo(i, sy) : ctx.lineTo(i, sy);
+    if (surfaceY > 0 && surfaceY < VH) {
+      ctx.fillStyle = 'rgba(100,200,255,0.05)';
+      for (let i = 0; i < 20; i++) {
+        const sx = (i * 117 + t * 0.025) % CW;
+        ctx.fillRect(sx, surfaceY, 28 + Math.sin(t * 0.003 + i) * 12, 3);
       }
-      ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+      ctx.lineWidth = 1.8;
+      for (let w = 0; w < 3; w++) {
+        ctx.beginPath();
+        for (let i = 0; i <= CW; i += 6) {
+          const sy = surfaceY + Math.sin(i * 0.015 + r.waveOff + w * 1.1) * 5;
+          i === 0 ? ctx.moveTo(i, sy) : ctx.lineTo(i, sy);
+        }
+        ctx.stroke();
+      }
     }
 
     // depth zones
@@ -645,8 +665,8 @@ export default function GameCanvas({ engine, state }) {
       { d: OCEAN_D * 0.74, l: 'Abyssal' },
       { d: OCEAN_D * 0.9, l: 'Hadal' },
     ].forEach((z) => {
-      const sy = d2s(z.d);
-      if (sy < WATER_SY || sy > VH) return;
+      const sy = toScreen(z.d);
+      if (sy < 0 || sy > VH) return;
       ctx.fillStyle = 'rgba(160,210,255,0.25)';
       ctx.font = 'bold 11px sans-serif';
       ctx.textAlign = 'left';
@@ -663,8 +683,8 @@ export default function GameCanvas({ engine, state }) {
 
     // bubbles
     r.bubbles.forEach((b) => {
-      const sy = d2s(b.depth);
-      if (sy < WATER_SY || sy > VH) return;
+      const sy = toScreen(b.depth);
+      if (sy < 0 || sy > VH) return;
       ctx.strokeStyle = 'rgba(160,220,255,0.45)';
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -675,14 +695,15 @@ export default function GameCanvas({ engine, state }) {
     // swimmers (fish)
     r.swimmers.forEach((s) => {
       if (!s) return;
-      const sy = d2s(s.depth);
-      if (sy < WATER_SY - s.fish.H || sy > VH + s.fish.H * 2) return;
+      const sy = toScreen(s.depth);
+      if (sy < -s.fish.H || sy > VH + s.fish.H) return;
       drawFish(ctx, s.fish, s.x, sy, s.dir, 1, 1, t);
     });
 
-    // BOAT
+    // BOAT — scrolls with camera
     const bx = BOAT_SX;
-    const by = BOAT_SY;
+    const by = BOAT_SY - cameraY;
+    const rodSY = ROD_SY - cameraY;
     ctx.fillStyle = 'rgba(8,60,130,0.18)';
     ctx.beginPath();
     ctx.ellipse(bx, by + 38, BOAT_W * 0.45, 14, 0, 0, Math.PI * 2);
@@ -751,13 +772,13 @@ export default function GameCanvas({ engine, state }) {
     ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.moveTo(rmx, rmy - 6);
-    ctx.lineTo(ROD_SX, ROD_SY);
+    ctx.lineTo(ROD_SX, rodSY);
     ctx.stroke();
     ctx.strokeStyle = '#ddd';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(ROD_SX, ROD_SY);
-    ctx.lineTo(ROD_SX + 12, ROD_SY - 4);
+    ctx.moveTo(ROD_SX, rodSY);
+    ctx.lineTo(ROD_SX + 12, rodSY - 4);
     ctx.stroke();
     ctx.fillStyle = '#404040';
     ctx.beginPath();
@@ -768,15 +789,15 @@ export default function GameCanvas({ engine, state }) {
     if (r.phase !== 'idle') {
       r.lines.forEach((l) => {
         if (l.state === 'done') return;
-        const hsy = l.state === 'flying' ? ROD_SY + l.arcY * 12 : d2s(l.depth);
+        const hsy = l.state === 'flying' ? rodSY + l.arcY * 12 : toScreen(l.depth);
         const hsx = l.sx;
         const stress = l.state === 'reeling' ? l.hooked.res / 80 : 0;
         ctx.strokeStyle = stress > 0.5 ? `rgba(255,${Math.floor(160 - stress * 160)},50,0.95)` : 'rgba(220,240,255,0.9)';
         ctx.lineWidth = 2;
         const mx = (ROD_SX + hsx) / 2;
-        const my = (ROD_SY + hsy) / 2 + (l.state === 'flying' ? -30 : 35 + stress * 20);
+        const my = (rodSY + hsy) / 2 + (l.state === 'flying' ? -30 : 35 + stress * 20);
         ctx.beginPath();
-        ctx.moveTo(ROD_SX, ROD_SY);
+        ctx.moveTo(ROD_SX, rodSY);
         ctx.quadraticCurveTo(mx, my, hsx, hsy);
         ctx.stroke();
         if (l.state === 'drifting') {
@@ -816,13 +837,13 @@ export default function GameCanvas({ engine, state }) {
       ctx.setLineDash([8, 7]);
       ctx.lineDashOffset = -t * 0.04;
       ctx.beginPath();
-      ctx.moveTo(ROD_SX, ROD_SY);
-      ctx.lineTo(ROD_SX + Math.cos(a) * 220, ROD_SY + Math.sin(a) * 220);
+      ctx.moveTo(ROD_SX, rodSY);
+      ctx.lineTo(ROD_SX + Math.cos(a) * 220, rodSY + Math.sin(a) * 220);
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.fillStyle = 'rgba(255,255,120,0.85)';
       const ax = ROD_SX + Math.cos(a) * 220;
-      const ay = ROD_SY + Math.sin(a) * 220;
+      const ay = rodSY + Math.sin(a) * 220;
       ctx.beginPath();
       ctx.moveTo(ax, ay);
       ctx.lineTo(ax + Math.cos(a + 2.4) * 12, ay + Math.sin(a + 2.4) * 12);
@@ -838,9 +859,24 @@ export default function GameCanvas({ engine, state }) {
       ctx.fillStyle = p.color || '#ffe066';
       ctx.font = `bold ${p.size || 13}px sans-serif`;
       ctx.textAlign = 'center';
-      ctx.fillText(p.text, p.x, p.sy - (80 - p.life) * 0.5);
+      ctx.fillText(p.text, p.x, p.sy - cameraY - (80 - p.life) * 0.5);
       ctx.globalAlpha = 1;
     });
+
+    // depth HUD — shown during active fishing
+    if (r.phase === 'drifting' || r.phase === 'reeling') {
+      const depthM = Math.round(r.hookDepth / 3);
+      const label = `depth: ${depthM}m`;
+      ctx.font = 'bold 13px monospace';
+      const lw = ctx.measureText(label).width;
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
+      ctx.beginPath();
+      ctx.roundRect(CW - lw - 28, 14, lw + 20, 24, 5);
+      ctx.fill();
+      ctx.fillStyle = 'rgba(160,230,255,0.9)';
+      ctx.textAlign = 'right';
+      ctx.fillText(label, CW - 14, 31);
+    }
 
     // HUD
     ctx.fillStyle = 'rgba(0,0,0,0.32)';
