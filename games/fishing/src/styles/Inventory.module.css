@@ -1,0 +1,44 @@
+.inventory {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.inventory h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.fishList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fishItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.fishItem div {
+  display: flex;
+  flex-direction: column;
+}
+
+.fishItem strong {
+  color: #333;
+  font-size: 13px;
+}
+
+.fishItem span {
+  color: #666;
+  font-size: 12px;
+}

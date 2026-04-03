@@ -1,0 +1,14 @@
+.gameCanvas {
+  display: block;
+  margin: 0 auto;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  cursor: crosshair;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  image-rendering: crisp-edges;
+}
+
+.gameCanvas:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}

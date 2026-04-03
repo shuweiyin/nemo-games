@@ -1,0 +1,25 @@
+.stats {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.stats h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.stat span {
+  font-weight: bold;
+}
+
+.stat strong {
+  color: #1e90ff;
+}
