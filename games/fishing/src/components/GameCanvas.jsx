@@ -10,7 +10,6 @@ import {
   BOAT_H,
   ROD_SX,
   ROD_SY,
-  d2s,
   FISH,
 } from '../engine/FishingGameEngine';
 import styles from '../styles/GameCanvas.module.css';
