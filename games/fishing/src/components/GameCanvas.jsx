@@ -918,6 +918,20 @@ export default function GameCanvas({ engine, state }) {
     }
   }
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!engine) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (engine.getPhase() === 'idle') engine.castLine();
+      } else if (e.code === 'KeyR') {
+        if (engine.getPhase() === 'reeling') engine.reel();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [engine]);
+
   const handleMouseMove = (e) => {
     if (!engine) return;
     const rect = e.currentTarget.getBoundingClientRect();
