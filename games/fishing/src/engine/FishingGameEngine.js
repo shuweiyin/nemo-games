@@ -301,19 +301,18 @@ class FishingGameEngine {
         l.depth += (td - l.depth) * 0.025 * dt;
         l.sx += (tx - l.sx) * 0.025 * dt;
 
-        const hookSY = d2s(l.depth);
-
-        // Hit detection against visible swimmers
+        // Hit detection against swimmers visible in camera window
+        const VIEW_H = VH - WATER_SY;
         const hitIdx = this.state.swimmers.findIndex((s) => {
           if (!s) return false;
-          const fsy = d2s(s.depth);
 
-          // Check if fish is visible on screen
-          if (fsy < WATER_SY - s.fish.H || fsy > VH + s.fish.H) return false;
+          // Check if fish is within camera view (virtual depth coords)
+          if (s.depth < this.state.cameraY - s.fish.H ||
+              s.depth > this.state.cameraY + VIEW_H + s.fish.H) return false;
 
-          // Check collision with hook
+          // Check collision using virtual depth (same coord space as l.depth)
           return (
-            Math.hypot(s.x - l.sx, fsy - hookSY) <
+            Math.hypot(s.x - l.sx, s.depth - l.depth) <
             22 + s.fish.L * 0.28
           );
         });
