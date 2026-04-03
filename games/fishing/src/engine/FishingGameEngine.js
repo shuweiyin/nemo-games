@@ -204,11 +204,12 @@ class FishingGameEngine {
     this.state.waveOff += 0.018 * dt;
 
     // Update camera to follow hook depth
+    // VIEW_H * 0.4 offset keeps the hook ~40% down the visible window (room to see below)
     const VIEW_H = VH - WATER_SY;
     const targetCameraY = this.state.phase === 'idle'
       ? 0
       : Math.max(0, Math.min(OCEAN_D - VIEW_H, this.state.hookDepth - VIEW_H * 0.4));
-    const camSpeed = this.state.phase === 'idle' ? 0.08 : 0.04;
+    const camSpeed = this.state.phase === 'idle' ? 0.08 : 0.04; // idle: fast reset, active: smooth follow
     this.state.cameraY += (targetCameraY - this.state.cameraY) * camSpeed * dt;
 
     // Update bubbles
