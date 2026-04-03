@@ -111,6 +111,7 @@ class FishingGameEngine {
       pending: 0, // pending fish to respawn
     };
     this.elapsedTime = 0;
+    this.spawnInitialFish();
   }
 
   /**
