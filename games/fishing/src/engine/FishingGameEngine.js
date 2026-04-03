@@ -2,7 +2,7 @@
 const CW = 1100;
 const VH = 780;
 const WATER_SY = 260;
-const OCEAN_D = VH - WATER_SY;
+const OCEAN_D = 3000;
 const BOAT_SX = CW / 2;
 const BOAT_SY = WATER_SY;
 const BOAT_W = 420;
