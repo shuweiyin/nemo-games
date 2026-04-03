@@ -100,6 +100,7 @@ class FishingGameEngine {
       swimmers: [],
       bubbles: [],
       waveOff: 0,
+      cameraY: 0,
       rod: "r1",
       lure: "l1",
       net: "n1",
@@ -139,6 +140,7 @@ class FishingGameEngine {
       swimmers: [],
       bubbles: [],
       waveOff: 0,
+      cameraY: 0,
       rod: "r1",
       lure: "l1",
       net: "n1",
@@ -177,9 +179,8 @@ class FishingGameEngine {
    * Set mouse position for lure guidance during drifting phase
    */
   setMousePosition(x, y) {
-    // Convert screen coordinates to game coordinates
     this.state.mouseSX = x;
-    this.state.mouseDepth = s2d(y);
+    this.state.mouseDepth = s2d(y) + this.state.cameraY;
   }
 
   /**
@@ -201,6 +202,14 @@ class FishingGameEngine {
 
     // Update wave animation
     this.state.waveOff += 0.018 * dt;
+
+    // Update camera to follow hook depth
+    const VIEW_H = VH - WATER_SY;
+    const targetCameraY = this.state.phase === 'idle'
+      ? 0
+      : Math.max(0, Math.min(OCEAN_D - VIEW_H, this.state.hookDepth - VIEW_H * 0.4));
+    const camSpeed = this.state.phase === 'idle' ? 0.08 : 0.04;
+    this.state.cameraY += (targetCameraY - this.state.cameraY) * camSpeed * dt;
 
     // Update bubbles
     this.state.bubbles = this.state.bubbles.filter((b) => b.life > 0);
