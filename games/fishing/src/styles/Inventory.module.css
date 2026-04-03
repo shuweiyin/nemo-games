@@ -1,44 +1,78 @@
 .inventory {
   padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #f9f9f9;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #222;
   max-height: 300px;
   overflow-y: auto;
 }
 
 .inventory h2 {
   margin-top: 0;
-  font-size: 18px;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
 .fishList {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+}
+
+.emptyText {
+  color: #666;
+  font-size: 13px;
 }
 
 .fishItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 3px;
+  padding: 8px 10px;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 4px;
 }
 
-.fishItem div {
+.fishInfo {
   display: flex;
   flex-direction: column;
 }
 
 .fishItem strong {
-  color: #333;
+  color: #e0e0e0;
   font-size: 13px;
 }
 
 .fishItem span {
-  color: #666;
+  color: #888;
   font-size: 12px;
+}
+
+.fishActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fishValue {
+  color: #ffd700;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.sellBtn {
+  padding: 3px 10px;
+  background: #2a7a2a;
+  color: #7dff7d;
+  border: 1px solid #3a9a3a;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.sellBtn:hover {
+  background: #3a9a3a;
 }

@@ -1,25 +1,28 @@
 .stats {
   padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #f9f9f9;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #222;
 }
 
 .stats h2 {
   margin-top: 0;
-  font-size: 18px;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
 .stat {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .stat span {
   font-weight: bold;
+  color: #aaa;
 }
 
 .stat strong {
-  color: #1e90ff;
+  color: #4db8ff;
 }

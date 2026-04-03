@@ -14,7 +14,7 @@ function App() {
         </div>
         <div className="sidebar">
           <Stats state={state} />
-          <Inventory state={state} />
+          <Inventory state={state} engine={engine} />
           <Shop engine={engine} state={state} />
         </div>
       </div>
