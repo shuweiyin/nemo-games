@@ -227,6 +227,19 @@ class FishingGameEngine {
     // Update wave animation
     this.state.waveOff += 0.018 * dt;
 
+    // Re-roll ambient slots for ultra-rare species every 60 seconds
+    if (performance.now() - this.state.lastRareRoll > 60000) {
+      for (const f of FISH.filter(f => f.spawnRate < 0.01)) {
+        this.state.swimmers = this.state.swimmers.filter(s => s.fish.id !== f.id);
+        for (let i = 0; i < f.maxAmbient; i++) {
+          if (Math.random() < f.spawnRate) {
+            this.state.swimmers.push(mkSwimmer(f));
+          }
+        }
+      }
+      this.state.lastRareRoll = performance.now();
+    }
+
     // Update camera to follow hook depth
     // VIEW_H * 0.4 offset keeps the hook ~40% down the visible window (room to see below)
     const VIEW_H = VH - WATER_SY;
