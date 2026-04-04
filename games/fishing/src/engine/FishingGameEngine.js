@@ -297,13 +297,6 @@ class FishingGameEngine {
       if (e.x > CW + e.fish.L) e.x = -e.fish.L;
     });
 
-    // Trigger encounter roll when drifting and timer is due
-    if (this.state.lines.some(line => line.state === 'drifting') &&
-        this.state.nextEncounterRoll > 0 &&
-        performance.now() >= this.state.nextEncounterRoll) {
-      this._runEncounterRoll();
-    }
-
     // Check time limit expiry — fires whenever any lines are still drifting
     if (this.state.lines.some(line => line.state === 'drifting') && this.state.driftStartTime > 0) {
       const effectiveStart = Math.max(this.state.driftStartTime, this.state.lastCatchTime);
@@ -379,14 +372,14 @@ class FishingGameEngine {
         l.depth += Math.sign(rawDelta) * Math.min(Math.abs(rawDelta), maxDelta);
         l.sx += (tx - l.sx) * 0.025 * dt;
 
-        // Check collision against encounter fish
-        const hitIdx = this.state.encounters.findIndex(e =>
-          Math.hypot(e.x - l.sx, e.depth - l.depth) < 22 + e.fish.L * 0.28
+        // Check collision with ambient swimmers — hook touching a fish catches it
+        const hitIdx = this.state.swimmers.findIndex(s =>
+          s && Math.hypot(s.x - l.sx, s.depth - l.depth) < 22 + s.fish.L * 0.28
         );
 
         if (hitIdx !== -1) {
-          const hit = this.state.encounters[hitIdx];
-          this.state.encounters.splice(hitIdx, 1);
+          const hit = this.state.swimmers[hitIdx];
+          this.state.swimmers.splice(hitIdx, 1);
           l.hooked = { ...hit.fish, sx: l.sx, sd: l.depth };
           l.state = "reeling";
           l.prog = 0;
