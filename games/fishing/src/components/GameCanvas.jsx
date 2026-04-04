@@ -897,7 +897,7 @@ export default function GameCanvas({ engine, state }) {
     }
 
     // time bar — shown during drifting
-    if (r.phase === 'drifting' && r.driftStartTime > 0) {
+    if (r.lines.some(l => l.state === 'drifting') && r.driftStartTime > 0) {
       const rod = RODS.find(rd => rd.id === r.rod);
       const effectiveStart = Math.max(r.driftStartTime, r.lastCatchTime);
       const timeRemaining = rod.timeLimit - (performance.now() - effectiveStart - r.totalPausedMs);
