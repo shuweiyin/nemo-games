@@ -11,6 +11,7 @@ import {
   ROD_SX,
   ROD_SY,
   FISH,
+  RODS,
 } from '../engine/FishingGameEngine';
 import styles from '../styles/GameCanvas.module.css';
 
@@ -893,6 +894,35 @@ export default function GameCanvas({ engine, state }) {
       ctx.fillStyle = 'rgba(160,230,255,0.9)';
       ctx.textAlign = 'right';
       ctx.fillText(label, CW - 14, 31);
+    }
+
+    // time bar — shown during drifting
+    if (r.phase === 'drifting' && r.driftStartTime > 0) {
+      const rod = RODS.find(rd => rd.id === r.rod);
+      const effectiveStart = Math.max(r.driftStartTime, r.lastCatchTime);
+      const timeRemaining = rod.timeLimit - (performance.now() - effectiveStart - r.totalPausedMs);
+      const pct = Math.max(0, timeRemaining / rod.timeLimit);
+      const barW = 120;
+      const barH = 10;
+      const bx = CW - barW - 14;
+      const by = 46;
+
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
+      ctx.beginPath();
+      ctx.roundRect(bx, by, barW, barH, 4);
+      ctx.fill();
+
+      const barColor = pct >= 0.40 ? '#44ee66' : pct >= 0.15 ? '#ffaa22' : '#ff3322';
+      ctx.fillStyle = barColor;
+      ctx.beginPath();
+      ctx.roundRect(bx, by, barW * pct, barH, 4);
+      ctx.fill();
+
+      const secs = Math.ceil(Math.max(0, timeRemaining / 1000));
+      ctx.fillStyle = barColor;
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(`${secs}s`, CW - 14, by + barH - 1);
     }
 
     // HUD
