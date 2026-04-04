@@ -108,6 +108,13 @@ class FishingGameEngine {
       log: {}, // catch counts by fish id
       inv: {}, // inventory counts by fish id
       lastR: 0, // last reel time
+      encounters: [],
+      nextEncounterRoll: 0,
+      driftStartTime: 0,
+      lastCatchTime: 0,
+      reelingEntryTime: 0,
+      totalPausedMs: 0,
+      lastRareRoll: 0,
     };
     this.elapsedTime = 0;
     this.spawnInitialFish();
@@ -148,6 +155,13 @@ class FishingGameEngine {
       log: {},
       inv: {},
       lastR: 0,
+      encounters: [],
+      nextEncounterRoll: 0,
+      driftStartTime: 0,
+      lastCatchTime: 0,
+      reelingEntryTime: 0,
+      totalPausedMs: 0,
+      lastRareRoll: 0,
     };
     this.elapsedTime = 0;
     this.spawnInitialFish();
@@ -381,6 +395,13 @@ class FishingGameEngine {
    * Creates line(s) based on net selection with spread pattern
    */
   castLine() {
+    this.state.driftStartTime = 0;
+    this.state.lastCatchTime = 0;
+    this.state.totalPausedMs = 0;
+    this.state.reelingEntryTime = 0;
+    this.state.nextEncounterRoll = 0;
+    this.state.encounters = [];
+
     if (this.state.phase !== "idle") return;
 
     const netItem = NETS.find((x) => x.id === this.state.net);
