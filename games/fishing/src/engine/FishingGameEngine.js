@@ -154,7 +154,9 @@ class FishingGameEngine {
   }
 
   /**
-   * Spawn initial swimmers (one of each fish type)
+   * Spawn initial swimmers probabilistically.
+   * For each species, rolls up to maxAmbient times at spawnRate probability.
+   * Common species fill many slots; rare species may spawn zero.
    */
   spawnInitialFish() {
     this.state.swimmers = [];
