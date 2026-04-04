@@ -296,6 +296,13 @@ class FishingGameEngine {
       if (e.x > CW + e.fish.L) e.x = -e.fish.L;
     });
 
+    // Trigger encounter roll when drifting and timer is due
+    if (this.state.phase === 'drifting' &&
+        this.state.nextEncounterRoll > 0 &&
+        performance.now() >= this.state.nextEncounterRoll) {
+      this._runEncounterRoll();
+    }
+
     // If idle, don't process line physics
     if (this.state.phase === "idle") return;
 
@@ -316,6 +323,11 @@ class FishingGameEngine {
           l.vx = 0;
           l.vy = 0;
           this.state.phase = "drifting";
+
+          // Start encounter roll timer when hook first hits water
+          if (this.state.nextEncounterRoll === 0) {
+            this.state.nextEncounterRoll = performance.now() + 2000 + Math.random() * 1000;
+          }
 
           // Create splash bubbles
           for (let i = 0; i < 6; i++) {
@@ -475,6 +487,53 @@ class FishingGameEngine {
         l.prog += Math.max(0.2, reelSpeed * 2.4 - l.hooked.res * 0.003);
       }
     });
+  }
+
+  _runEncounterRoll() {
+    const driftingLine = this.state.lines.find(l => l.state === 'drifting');
+    if (!driftingLine) return;
+
+    const hookDepth = driftingLine.depth;
+    const hookSX = driftingLine.sx;
+    const lure = LURES.find(l => l.id === this.state.lure);
+
+    if (lure.legendMode) {
+      // Legend Lure: bimodal — 5% kraken, 95% minnow, depth ignored
+      if (this.state.encounters.length < 10) {
+        const f = Math.random() < 0.05
+          ? FISH.find(f => f.id === 'kraken')
+          : FISH.find(f => f.id === 'minnow');
+        this.state.encounters.push({
+          fish: f,
+          x: hookSX + (Math.random() - 0.5) * 120,
+          depth: hookDepth + (Math.random() - 0.5) * 80,
+          dir: Math.random() < 0.5 ? 1 : -1,
+          wobble: 0,
+          vx: (Math.random() - 0.5) * 0.4,
+          spawnedAt: performance.now(),
+        });
+      }
+      this.state.nextEncounterRoll = performance.now() + 1400 + Math.random() * 700;
+    } else {
+      // Standard lures: per-species depth-filtered roll
+      const mult = lure.spawnMult;
+      for (const f of FISH) {
+        if (this.state.encounters.length >= 10) break;
+        if (hookDepth < f.mn * OCEAN_D || hookDepth > f.mx * OCEAN_D) continue;
+        if (Math.random() < f.spawnRate * mult) {
+          this.state.encounters.push({
+            fish: f,
+            x: hookSX + (Math.random() - 0.5) * 120,
+            depth: hookDepth + (Math.random() - 0.5) * 80,
+            dir: Math.random() < 0.5 ? 1 : -1,
+            wobble: 0,
+            vx: (Math.random() - 0.5) * 0.4,
+            spawnedAt: performance.now(),
+          });
+        }
+      }
+      this.state.nextEncounterRoll = performance.now() + 2000 + Math.random() * 1000;
+    }
   }
 
   /**
