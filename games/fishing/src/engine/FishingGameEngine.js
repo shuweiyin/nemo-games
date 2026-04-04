@@ -323,9 +323,7 @@ class FishingGameEngine {
           l.prog = 0;
           this.state.phase = "reeling";
 
-          // Mark fish for respawn
           this.state.swimmers[hitIdx] = null;
-          this.state.pending++;
         }
       }
 
