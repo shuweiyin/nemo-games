@@ -352,31 +352,22 @@ class FishingGameEngine {
         l.depth += Math.sign(rawDelta) * Math.min(Math.abs(rawDelta), maxDelta);
         l.sx += (tx - l.sx) * 0.025 * dt;
 
-        // Hit detection against swimmers visible in camera window
-        const VIEW_H = VH - WATER_SY;
-        const hitIdx = this.state.swimmers.findIndex((s) => {
-          if (!s) return false;
-
-          // Check if fish is within camera view (virtual depth coords)
-          if (s.depth < this.state.cameraY - s.fish.H ||
-              s.depth > this.state.cameraY + VIEW_H + s.fish.H) return false;
-
-          // Check collision using virtual depth (same coord space as l.depth)
-          return (
-            Math.hypot(s.x - l.sx, s.depth - l.depth) <
-            22 + s.fish.L * 0.28
-          );
-        });
+        // Check collision against encounter fish
+        const hitIdx = this.state.encounters.findIndex(e =>
+          Math.hypot(e.x - l.sx, e.depth - l.depth) < 22 + e.fish.L * 0.28
+        );
 
         if (hitIdx !== -1) {
-          // Fish hooked!
-          const hit = this.state.swimmers[hitIdx];
+          const hit = this.state.encounters[hitIdx];
+          this.state.encounters.splice(hitIdx, 1);
           l.hooked = { ...hit.fish, sx: l.sx, sd: l.depth };
           l.state = "reeling";
           l.prog = 0;
           this.state.phase = "reeling";
-
-          this.state.swimmers[hitIdx] = null;
+          // Record when reeling started (for timer pause) — only on first hook
+          if (this.state.reelingEntryTime === 0) {
+            this.state.reelingEntryTime = performance.now();
+          }
         }
       }
 
@@ -405,6 +396,7 @@ class FishingGameEngine {
           });
 
           l.state = "done";
+          this.state.lastCatchTime = performance.now();
         }
       }
     });
@@ -421,6 +413,11 @@ class FishingGameEngine {
       this.state.lines.length > 0 &&
       this.state.lines.every((l) => l.state === "done")
     ) {
+      // Accumulate time spent reeling so timer doesn't count it
+      if (this.state.reelingEntryTime > 0) {
+        this.state.totalPausedMs += performance.now() - this.state.reelingEntryTime;
+        this.state.reelingEntryTime = 0;
+      }
       this.state.phase = "idle";
       this.state.lines = [];
       this.state.hookDepth = 0;
