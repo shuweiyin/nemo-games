@@ -50,10 +50,10 @@ const FISH = [
 ];
 
 const RODS = [
-  { id: "r1", name: "Beginner Rod", cost: 0,    spd: 1,   timeLimit: 5000  },
-  { id: "r2", name: "Carbon Rod",   cost: 200,  spd: 1.5, timeLimit: 15000 },
-  { id: "r3", name: "Pro Spinner",  cost: 600,  spd: 2.2, timeLimit: 35000 },
-  { id: "r4", name: "Master's Rod", cost: 1500, spd: 3.2, timeLimit: 50000 },
+  { id: "r1", name: "Beginner Rod", cost: 0,    spd: 1,   timeLimit: 5000,  resFactor: 2.0 },
+  { id: "r2", name: "Carbon Rod",   cost: 200,  spd: 1.5, timeLimit: 15000, resFactor: 1.5 },
+  { id: "r3", name: "Pro Spinner",  cost: 600,  spd: 2.2, timeLimit: 35000, resFactor: 1.0 },
+  { id: "r4", name: "Master's Rod", cost: 1500, spd: 3.2, timeLimit: 50000, resFactor: 0.7 },
 ];
 
 const LURES = [
@@ -219,6 +219,7 @@ class FishingGameEngine {
     const rawMs = dt;
     // Clamp deltaTime to prevent huge jumps
     dt = Math.min(dt, 3);
+    const rod = RODS.find(r => r.id === this.state.rod);
 
     // Update aim angle oscillation (only during idle)
     this.state.aimT += 0.016 * dt;
@@ -297,28 +298,31 @@ class FishingGameEngine {
     });
 
     // Trigger encounter roll when drifting and timer is due
-    if (this.state.phase === 'drifting' &&
+    if (this.state.lines.some(line => line.state === 'drifting') &&
         this.state.nextEncounterRoll > 0 &&
         performance.now() >= this.state.nextEncounterRoll) {
       this._runEncounterRoll();
     }
 
-    // Check time limit expiry (only during drifting, not reeling)
-    if (this.state.phase === 'drifting') {
-      const rod = RODS.find(r => r.id === this.state.rod);
+    // Check time limit expiry — fires whenever any lines are still drifting
+    if (this.state.lines.some(line => line.state === 'drifting') && this.state.driftStartTime > 0) {
       const effectiveStart = Math.max(this.state.driftStartTime, this.state.lastCatchTime);
       const timeRemaining = rod.timeLimit - (performance.now() - effectiveStart - this.state.totalPausedMs);
 
       if (timeRemaining <= 0) {
-        this.state.lines = [];
+        // Remove only drifting lines; keep lines that are actively reeling
+        this.state.lines = this.state.lines.filter(line => line.state !== 'drifting');
         this.state.encounters = [];
-        this.state.phase = 'idle';
-        this.state.hookDepth = 0;
+        this.state.nextEncounterRoll = 0;
         this.state.driftStartTime = 0;
         this.state.lastCatchTime = 0;
         this.state.totalPausedMs = 0;
         this.state.reelingEntryTime = 0;
-        this.state.nextEncounterRoll = 0;
+        // Only go idle if nothing is still reeling
+        if (this.state.lines.length === 0) {
+          this.state.phase = 'idle';
+          this.state.hookDepth = 0;
+        }
       }
     }
 
@@ -387,6 +391,12 @@ class FishingGameEngine {
           l.state = "reeling";
           l.prog = 0;
           this.state.phase = "reeling";
+          // Multi-line net: if other lines are still drifting, reset their timer
+          if (this.state.lines.some(other => other !== l && other.state === 'drifting')) {
+            this.state.driftStartTime = performance.now();
+            this.state.lastCatchTime = 0;
+            this.state.totalPausedMs = 0;
+          }
           // Record when reeling started (for timer pause) — only on first hook
           if (this.state.reelingEntryTime === 0) {
             this.state.reelingEntryTime = performance.now();
@@ -396,7 +406,7 @@ class FishingGameEngine {
 
       if (l.state === "reeling") {
         // Line is reeling in with resistance from fish
-        l.prog = Math.max(0, l.prog - l.hooked.res * 0.0012 * dt);
+        l.prog = Math.max(0, l.prog - l.hooked.res * rod.resFactor * 0.0008 * dt);
 
         const pct = l.prog / 100;
         l.sx = l.hooked.sx + (ROD_SX - l.hooked.sx) * pct;
@@ -504,11 +514,12 @@ class FishingGameEngine {
 
     const rodItem = RODS.find((x) => x.id === this.state.rod);
     const reelSpeed = rodItem?.spd || 1;
+    const resFactor = rodItem?.resFactor || 1;
 
     // Increase progress on each hooked line
     this.state.lines.forEach((l) => {
       if (l.state === "reeling" && l.hooked) {
-        l.prog += Math.max(0.2, reelSpeed * 2.4 - l.hooked.res * 0.003);
+        l.prog += Math.max(0.2, reelSpeed * 3 / (1 + l.hooked.res * resFactor * 0.1));
       }
     });
   }
