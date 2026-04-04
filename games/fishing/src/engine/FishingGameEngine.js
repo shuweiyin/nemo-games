@@ -215,6 +215,8 @@ class FishingGameEngine {
    * - Bubble and popup animation
    */
   update(dt) {
+    // Save raw ms before clamping (used for descent speed cap only)
+    const rawMs = dt;
     // Clamp deltaTime to prevent huge jumps
     dt = Math.min(dt, 3);
 
@@ -312,7 +314,9 @@ class FishingGameEngine {
         const tx = Math.max(10, Math.min(CW - 10, this.state.mouseSX));
 
         // Smoothly move toward target
-        l.depth += (td - l.depth) * 0.025 * dt;
+        const maxDelta = 750 * (rawMs / 1000);
+        const rawDelta = (td - l.depth) * 0.025 * dt;
+        l.depth += Math.sign(rawDelta) * Math.min(Math.abs(rawDelta), maxDelta);
         l.sx += (tx - l.sx) * 0.025 * dt;
 
         // Hit detection against swimmers visible in camera window
