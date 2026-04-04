@@ -303,6 +303,25 @@ class FishingGameEngine {
       this._runEncounterRoll();
     }
 
+    // Check time limit expiry (only during drifting, not reeling)
+    if (this.state.phase === 'drifting') {
+      const rod = RODS.find(r => r.id === this.state.rod);
+      const effectiveStart = Math.max(this.state.driftStartTime, this.state.lastCatchTime);
+      const timeRemaining = rod.timeLimit - (performance.now() - effectiveStart - this.state.totalPausedMs);
+
+      if (timeRemaining <= 0) {
+        this.state.lines = [];
+        this.state.encounters = [];
+        this.state.phase = 'idle';
+        this.state.hookDepth = 0;
+        this.state.driftStartTime = 0;
+        this.state.lastCatchTime = 0;
+        this.state.totalPausedMs = 0;
+        this.state.reelingEntryTime = 0;
+        this.state.nextEncounterRoll = 0;
+      }
+    }
+
     // If idle, don't process line physics
     if (this.state.phase === "idle") return;
 
@@ -327,6 +346,10 @@ class FishingGameEngine {
           // Start encounter roll timer when hook first hits water
           if (this.state.nextEncounterRoll === 0) {
             this.state.nextEncounterRoll = performance.now() + 2000 + Math.random() * 1000;
+          }
+
+          if (this.state.driftStartTime === 0) {
+            this.state.driftStartTime = performance.now();
           }
 
           // Create splash bubbles
