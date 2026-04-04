@@ -2,7 +2,7 @@
 const CW = 1100;
 const VH = 780;
 const WATER_SY = 260;
-const OCEAN_D = 3000;
+const OCEAN_D = 30000;
 const BOAT_SX = CW / 2;
 const BOAT_SY = WATER_SY;
 const BOAT_W = 420;
@@ -20,47 +20,47 @@ function s2d(sy) {
 
 // ─── fish data ───────────────────────────────────────────────────────────────
 const FISH = [
-  { id: "minnow", name: "Minnow", w: 0.1, v: 4, L: 28, H: 10, c: "#a8d8f0", fc: "#5a9ec0", res: 2, mn: 0.00, mx: 0.06 },
-  { id: "herring", name: "Herring", w: 0.3, v: 8, L: 38, H: 12, c: "#c8e0f0", fc: "#88b0d0", res: 4, mn: 0.01, mx: 0.08 },
-  { id: "perch", name: "Perch", w: 0.3, v: 10, L: 44, H: 20, c: "#f0c030", fc: "#b07800", res: 5, mn: 0.01, mx: 0.09 },
-  { id: "mackerel", name: "Mackerel", w: 0.5, v: 14, L: 58, H: 16, c: "#50a8d8", fc: "#1868a0", res: 7, mn: 0.02, mx: 0.11 },
-  { id: "trout", name: "Trout", w: 0.8, v: 20, L: 70, H: 24, c: "#88cc68", fc: "#408030", res: 10, mn: 0.03, mx: 0.14 },
-  { id: "flounder", name: "Flounder", w: 1.5, v: 28, L: 72, H: 52, c: "#d4b870", fc: "#a08030", res: 11, mn: 0.05, mx: 0.17 },
-  { id: "salmon", name: "Salmon", w: 2.5, v: 38, L: 90, H: 30, c: "#e87858", fc: "#a03818", res: 12, mn: 0.05, mx: 0.16 },
-  { id: "cod", name: "Cod", w: 3, v: 45, L: 96, H: 40, c: "#c0a870", fc: "#786028", res: 14, mn: 0.07, mx: 0.19 },
-  { id: "bass", name: "Bass", w: 4, v: 55, L: 100, H: 38, c: "#70b858", fc: "#387018", res: 15, mn: 0.06, mx: 0.17 },
-  { id: "pike", name: "Pike", w: 6, v: 80, L: 130, H: 28, c: "#68a850", fc: "#305820", res: 18, mn: 0.10, mx: 0.24 },
-  { id: "jellyfish", name: "Jellyfish", w: 0.8, v: 22, L: 48, H: 60, c: "#e8a8f8", fc: "#b060d0", res: 6, mn: 0.10, mx: 0.32 },
-  { id: "eel", name: "Moray Eel", w: 5, v: 70, L: 220, H: 22, c: "#60885a", fc: "#385028", res: 18, mn: 0.10, mx: 0.24 },
-  { id: "barracuda", name: "Barracuda", w: 8, v: 95, L: 150, H: 24, c: "#6888a0", fc: "#384860", res: 20, mn: 0.14, mx: 0.30 },
-  { id: "grouper", name: "Grouper", w: 12, v: 110, L: 110, H: 70, c: "#c06830", fc: "#783010", res: 22, mn: 0.18, mx: 0.36 },
-  { id: "nautilus", name: "Nautilus", w: 3, v: 85, L: 70, H: 70, c: "#f0c890", fc: "#c07830", res: 16, mn: 0.22, mx: 0.44 },
-  { id: "tuna", name: "Tuna", w: 15, v: 140, L: 150, H: 52, c: "#1858a8", fc: "#082868", res: 25, mn: 0.20, mx: 0.38 },
-  { id: "manta", name: "Manta Ray", w: 20, v: 165, L: 180, H: 110, c: "#203848", fc: "#101828", res: 28, mn: 0.24, mx: 0.44 },
-  { id: "swordfish", name: "Swordfish", w: 25, v: 220, L: 170, H: 32, c: "#184088", fc: "#081848", res: 30, mn: 0.28, mx: 0.48 },
-  { id: "oarfish", name: "Oarfish", w: 35, v: 300, L: 340, H: 22, c: "#b890c0", fc: "#705880", res: 35, mn: 0.36, mx: 0.56 },
-  { id: "sunfish", name: "Ocean Sunfish", w: 50, v: 380, L: 140, H: 170, c: "#888898", fc: "#505060", res: 38, mn: 0.32, mx: 0.54 },
-  { id: "shark", name: "Great White", w: 80, v: 450, L: 220, H: 64, c: "#607080", fc: "#303840", res: 42, mn: 0.44, mx: 0.64 },
-  { id: "colossal", name: "Colossal Squid", w: 45, v: 420, L: 200, H: 80, c: "#c03828", fc: "#801818", res: 40, mn: 0.48, mx: 0.68 },
-  { id: "gulper", name: "Gulper Eel", w: 8, v: 160, L: 260, H: 28, c: "#181828", fc: "#080818", res: 26, mn: 0.55, mx: 0.74 },
-  { id: "anglerfish", name: "Anglerfish", w: 10, v: 200, L: 100, H: 88, c: "#281430", fc: "#180828", res: 28, mn: 0.60, mx: 0.80 },
-  { id: "viperfish", name: "Viperfish", w: 6, v: 180, L: 140, H: 30, c: "#102830", fc: "#081820", res: 24, mn: 0.62, mx: 0.82 },
-  { id: "whale", name: "Blue Whale", w: 200, v: 850, L: 580, H: 170, c: "#284868", fc: "#101e30", res: 55, mn: 0.65, mx: 0.84 },
-  { id: "kraken", name: "Kraken", w: 999, v: 2000, L: 340, H: 340, c: "#380050", fc: "#180020", res: 80, mn: 0.84, mx: 0.98 },
+  { id: "minnow",    name: "Minnow",         w: 0.1,  v: 4,    L: 28,  H: 10,  c: "#a8d8f0", fc: "#5a9ec0", res: 2,  mn: 0.00, mx: 0.06, spawnRate: 0.90, maxAmbient: 30 },
+  { id: "herring",   name: "Herring",         w: 0.3,  v: 8,    L: 38,  H: 12,  c: "#c8e0f0", fc: "#88b0d0", res: 4,  mn: 0.01, mx: 0.08, spawnRate: 0.75, maxAmbient: 20 },
+  { id: "perch",     name: "Perch",           w: 0.3,  v: 10,   L: 44,  H: 20,  c: "#f0c030", fc: "#b07800", res: 5,  mn: 0.01, mx: 0.09, spawnRate: 0.70, maxAmbient: 18 },
+  { id: "mackerel",  name: "Mackerel",        w: 0.5,  v: 14,   L: 58,  H: 16,  c: "#50a8d8", fc: "#1868a0", res: 7,  mn: 0.02, mx: 0.11, spawnRate: 0.60, maxAmbient: 15 },
+  { id: "trout",     name: "Trout",           w: 0.8,  v: 20,   L: 70,  H: 24,  c: "#88cc68", fc: "#408030", res: 10, mn: 0.03, mx: 0.14, spawnRate: 0.55, maxAmbient: 12 },
+  { id: "flounder",  name: "Flounder",        w: 1.5,  v: 28,   L: 72,  H: 52,  c: "#d4b870", fc: "#a08030", res: 11, mn: 0.05, mx: 0.17, spawnRate: 0.45, maxAmbient: 10 },
+  { id: "salmon",    name: "Salmon",          w: 2.5,  v: 38,   L: 90,  H: 30,  c: "#e87858", fc: "#a03818", res: 12, mn: 0.05, mx: 0.16, spawnRate: 0.40, maxAmbient: 8  },
+  { id: "cod",       name: "Cod",             w: 3,    v: 45,   L: 96,  H: 40,  c: "#c0a870", fc: "#786028", res: 14, mn: 0.07, mx: 0.19, spawnRate: 0.38, maxAmbient: 8  },
+  { id: "bass",      name: "Bass",            w: 4,    v: 55,   L: 100, H: 38,  c: "#70b858", fc: "#387018", res: 15, mn: 0.06, mx: 0.17, spawnRate: 0.35, maxAmbient: 7  },
+  { id: "pike",      name: "Pike",            w: 6,    v: 80,   L: 130, H: 28,  c: "#68a850", fc: "#305820", res: 18, mn: 0.10, mx: 0.24, spawnRate: 0.28, maxAmbient: 6  },
+  { id: "jellyfish", name: "Jellyfish",       w: 0.8,  v: 22,   L: 48,  H: 60,  c: "#e8a8f8", fc: "#b060d0", res: 6,  mn: 0.10, mx: 0.32, spawnRate: 0.30, maxAmbient: 8  },
+  { id: "eel",       name: "Moray Eel",       w: 5,    v: 70,   L: 220, H: 22,  c: "#60885a", fc: "#385028", res: 18, mn: 0.10, mx: 0.24, spawnRate: 0.22, maxAmbient: 5  },
+  { id: "barracuda", name: "Barracuda",       w: 8,    v: 95,   L: 150, H: 24,  c: "#6888a0", fc: "#384860", res: 20, mn: 0.14, mx: 0.30, spawnRate: 0.18, maxAmbient: 4  },
+  { id: "grouper",   name: "Grouper",         w: 12,   v: 110,  L: 110, H: 70,  c: "#c06830", fc: "#783010", res: 22, mn: 0.18, mx: 0.36, spawnRate: 0.15, maxAmbient: 3  },
+  { id: "nautilus",  name: "Nautilus",        w: 3,    v: 85,   L: 70,  H: 70,  c: "#f0c890", fc: "#c07830", res: 16, mn: 0.22, mx: 0.44, spawnRate: 0.18, maxAmbient: 4  },
+  { id: "tuna",      name: "Tuna",            w: 15,   v: 140,  L: 150, H: 52,  c: "#1858a8", fc: "#082868", res: 25, mn: 0.20, mx: 0.38, spawnRate: 0.12, maxAmbient: 3  },
+  { id: "manta",     name: "Manta Ray",       w: 20,   v: 165,  L: 180, H: 110, c: "#203848", fc: "#101828", res: 28, mn: 0.24, mx: 0.44, spawnRate: 0.10, maxAmbient: 2  },
+  { id: "swordfish", name: "Swordfish",       w: 25,   v: 220,  L: 170, H: 32,  c: "#184088", fc: "#081848", res: 30, mn: 0.28, mx: 0.48, spawnRate: 0.08, maxAmbient: 2  },
+  { id: "oarfish",   name: "Oarfish",         w: 35,   v: 300,  L: 340, H: 22,  c: "#b890c0", fc: "#705880", res: 35, mn: 0.36, mx: 0.56, spawnRate: 0.06, maxAmbient: 2  },
+  { id: "sunfish",   name: "Ocean Sunfish",   w: 50,   v: 380,  L: 140, H: 170, c: "#888898", fc: "#505060", res: 38, mn: 0.32, mx: 0.54, spawnRate: 0.06, maxAmbient: 2  },
+  { id: "shark",     name: "Great White",     w: 80,   v: 450,  L: 220, H: 64,  c: "#607080", fc: "#303840", res: 42, mn: 0.44, mx: 0.64, spawnRate: 0.05, maxAmbient: 1  },
+  { id: "colossal",  name: "Colossal Squid",  w: 45,   v: 420,  L: 200, H: 80,  c: "#c03828", fc: "#801818", res: 40, mn: 0.48, mx: 0.68, spawnRate: 0.04, maxAmbient: 1  },
+  { id: "gulper",    name: "Gulper Eel",      w: 8,    v: 160,  L: 260, H: 28,  c: "#181828", fc: "#080818", res: 26, mn: 0.55, mx: 0.74, spawnRate: 0.035,maxAmbient: 1  },
+  { id: "anglerfish",name: "Anglerfish",      w: 10,   v: 200,  L: 100, H: 88,  c: "#281430", fc: "#180828", res: 28, mn: 0.60, mx: 0.80, spawnRate: 0.03, maxAmbient: 1  },
+  { id: "viperfish", name: "Viperfish",       w: 6,    v: 180,  L: 140, H: 30,  c: "#102830", fc: "#081820", res: 24, mn: 0.62, mx: 0.82, spawnRate: 0.025,maxAmbient: 1  },
+  { id: "whale",     name: "Blue Whale",      w: 200,  v: 850,  L: 580, H: 170, c: "#284868", fc: "#101e30", res: 55, mn: 0.65, mx: 0.84, spawnRate: 0.015,maxAmbient: 1  },
+  { id: "kraken",    name: "Kraken",          w: 999,  v: 2000, L: 340, H: 340, c: "#380050", fc: "#180020", res: 80, mn: 0.84, mx: 0.98, spawnRate: 0.001,maxAmbient: 1  },
 ];
 
 const RODS = [
-  { id: "r1", name: "Beginner Rod", cost: 0, spd: 1 },
-  { id: "r2", name: "Carbon Rod", cost: 200, spd: 1.5 },
-  { id: "r3", name: "Pro Spinner", cost: 600, spd: 2.2 },
-  { id: "r4", name: "Master's Rod", cost: 1500, spd: 3.2 },
+  { id: "r1", name: "Beginner Rod", cost: 0,    spd: 1,   timeLimit: 5000  },
+  { id: "r2", name: "Carbon Rod",   cost: 200,  spd: 1.5, timeLimit: 15000 },
+  { id: "r3", name: "Pro Spinner",  cost: 600,  spd: 2.2, timeLimit: 35000 },
+  { id: "r4", name: "Master's Rod", cost: 1500, spd: 3.2, timeLimit: 50000 },
 ];
 
 const LURES = [
-  { id: "l1", name: "Basic Lure", cost: 0, boost: 0 },
-  { id: "l2", name: "Silver Spoon", cost: 150, boost: 15 },
-  { id: "l3", name: "Magic Fly", cost: 450, boost: 35 },
-  { id: "l4", name: "Legend Lure", cost: 1200, boost: 60 },
+  { id: "l1", name: "Basic Lure",   cost: 0,    spawnMult: 1.0,  legendMode: false },
+  { id: "l2", name: "Silver Spoon", cost: 150,  spawnMult: 1.10, legendMode: false },
+  { id: "l3", name: "Magic Fly",    cost: 450,  spawnMult: 1.15, legendMode: false },
+  { id: "l4", name: "Legend Lure",  cost: 1200, spawnMult: 1.30, legendMode: true  },
 ];
 
 const NETS = [
