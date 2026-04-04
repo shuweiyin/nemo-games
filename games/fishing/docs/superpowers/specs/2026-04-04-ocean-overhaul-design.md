@@ -235,7 +235,7 @@ if (this.state.encounters.length < 10) {
   this.state.encounters.push({
     fish: f,
     x: hookSX + (Math.random() - 0.5) * 120,
-    depth: hookDepth + (Math.random() - 0.5) * 80,  // spawns at hook depth (always visible)
+    depth: hookDepth + (Math.random() - 0.5) * 80,  // always at hook depth — no depth filter applied
     dir: Math.random() < 0.5 ? 1 : -1,
     wobble: 0,
     vx: (Math.random() - 0.5) * 0.4,
@@ -245,7 +245,7 @@ if (this.state.encounters.length < 10) {
 // Legend Lure interval: 1400–2100ms
 this.state.nextEncounterRoll = performance.now() + 1400 + Math.random() * 700;
 ```
-`spawnMult: 1.30` is expressed only through the shorter interval — it is **not** applied as a probability multiplier in Legend Lure mode.
+**Depth filter is explicitly bypassed** in Legend Lure mode — minnow and kraken can appear at any hook depth regardless of their normal `mn`/`mx` range. `spawnMult: 1.30` is expressed only through the shorter interval, not as a probability multiplier.
 
 ### Encounter Collision — replace ambient swimmer collision in `update()`
 Inside `if (l.state === "drifting")`, after removing the old `hitIdx` block, add:
@@ -358,6 +358,7 @@ The timer formula subtracts `totalPausedMs`, so time spent reeling never counts 
   this.state.totalPausedMs = 0;
   this.state.reelingEntryTime = 0;
   this.state.nextEncounterRoll = 0;  // reset so next cast doesn't immediately roll
+  this.state.reelingEntryTime = 0;   // clear stale reel-pause timestamp
   ```
   Mid-reel fish are lost with no credit.
 
