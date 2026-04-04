@@ -288,6 +288,14 @@ class FishingGameEngine {
       }
     });
 
+    // Update encounter fish positions
+    this.state.encounters.forEach((e) => {
+      e.wobble += 0.06 * dt;
+      e.x += e.vx * dt;
+      if (e.x < -e.fish.L) e.x = CW + e.fish.L;
+      if (e.x > CW + e.fish.L) e.x = -e.fish.L;
+    });
+
     // If idle, don't process line physics
     if (this.state.phase === "idle") return;
 
