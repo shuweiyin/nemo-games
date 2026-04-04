@@ -444,6 +444,10 @@ class FishingGameEngine {
       this.state.phase = "idle";
       this.state.lines = [];
       this.state.hookDepth = 0;
+      this.state.encounters = [];
+      this.state.nextEncounterRoll = 0;
+      this.state.driftStartTime = 0;
+      this.state.lastCatchTime = 0;
     }
   }
 
@@ -452,14 +456,14 @@ class FishingGameEngine {
    * Creates line(s) based on net selection with spread pattern
    */
   castLine() {
+    if (this.state.phase !== "idle") return;
+
     this.state.driftStartTime = 0;
     this.state.lastCatchTime = 0;
     this.state.totalPausedMs = 0;
     this.state.reelingEntryTime = 0;
     this.state.nextEncounterRoll = 0;
     this.state.encounters = [];
-
-    if (this.state.phase !== "idle") return;
 
     const netItem = NETS.find((x) => x.id === this.state.net);
     const numLines = netItem?.max || 1;
