@@ -108,7 +108,6 @@ class FishingGameEngine {
       log: {}, // catch counts by fish id
       inv: {}, // inventory counts by fish id
       lastR: 0, // last reel time
-      pending: 0, // pending fish to respawn
     };
     this.elapsedTime = 0;
     this.spawnInitialFish();
@@ -149,7 +148,6 @@ class FishingGameEngine {
       log: {},
       inv: {},
       lastR: 0,
-      pending: 0,
     };
     this.elapsedTime = 0;
     this.spawnInitialFish();
@@ -159,7 +157,14 @@ class FishingGameEngine {
    * Spawn initial swimmers (one of each fish type)
    */
   spawnInitialFish() {
-    this.state.swimmers = FISH.map((f) => mkSwimmer(f));
+    this.state.swimmers = [];
+    for (const f of FISH) {
+      for (let i = 0; i < f.maxAmbient; i++) {
+        if (Math.random() < f.spawnRate) {
+          this.state.swimmers.push(mkSwimmer(f));
+        }
+      }
+    }
   }
 
   /**
@@ -251,14 +256,6 @@ class FishingGameEngine {
         s.dir = s.vx > 0 ? 1 : -1;
       }
     });
-
-    // Respawn one pending swimmer per frame when idle
-    if (this.state.phase === "idle" && this.state.pending > 0) {
-      const idx = this.state.swimmers.findIndex((s) => s === null);
-      const slot = idx !== -1 ? idx : this.state.swimmers.length;
-      this.state.swimmers[slot] = mkSwimmer(FISH[slot % FISH.length]);
-      this.state.pending--;
-    }
 
     // If idle, don't process line physics
     if (this.state.phase === "idle") return;
