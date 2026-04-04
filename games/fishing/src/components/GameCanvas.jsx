@@ -699,6 +699,24 @@ export default function GameCanvas({ engine, state }) {
       drawFish(ctx, s.fish, s.x, sy, s.dir, 1, 1, t);
     });
 
+    // encounter fish (catchable) — rendered with pulsing glow
+    const encT = performance.now();
+    r.encounters.forEach((e) => {
+      if (!e) return;
+      const sy = toScreen(e.depth);
+      if (sy < -e.fish.H || sy > VH + e.fish.H) return;
+      // Pulsing glow ring
+      ctx.save();
+      ctx.strokeStyle = e.fish.c + '88';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(e.x, sy, 16 + Math.sin(encT * 0.005) * 4, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+      // Fish body
+      drawFish(ctx, e.fish, e.x, sy, e.dir, 1, 1, encT);
+    });
+
     // BOAT — scrolls with camera
     const bx = BOAT_SX;
     const by = BOAT_SY - cameraY;
