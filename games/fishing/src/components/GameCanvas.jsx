@@ -889,11 +889,11 @@ export default function GameCanvas({ engine, state }) {
       const lw = ctx.measureText(label).width;
       ctx.fillStyle = 'rgba(0,0,0,0.45)';
       ctx.beginPath();
-      ctx.roundRect(CW - lw - 28, 14, lw + 20, 24, 5);
+      ctx.roundRect(CW - lw - 28, 64, lw + 20, 24, 5);
       ctx.fill();
       ctx.fillStyle = 'rgba(160,230,255,0.9)';
       ctx.textAlign = 'right';
-      ctx.fillText(label, CW - 14, 31);
+      ctx.fillText(label, CW - 14, 81);
     }
 
     // time bar — shown during drifting
