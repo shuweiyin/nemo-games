@@ -58,9 +58,9 @@ const RODS = [
 
 const LURES = [
   { id: "l1", name: "Basic Lure",   cost: 0,    spawnMult: 1.0,  legendMode: false },
-  { id: "l2", name: "Silver Spoon", cost: 150,  spawnMult: 1.10, legendMode: false },
-  { id: "l3", name: "Magic Fly",    cost: 450,  spawnMult: 1.15, legendMode: false },
-  { id: "l4", name: "Legend Lure",  cost: 1200, spawnMult: 1.30, legendMode: true  },
+  { id: "l2", name: "Silver Spoon", cost: 150,  spawnMult: 2.0,  legendMode: false },
+  { id: "l3", name: "Magic Fly",    cost: 450,  spawnMult: 3.5,  legendMode: false },
+  { id: "l4", name: "Legend Lure",  cost: 1200, spawnMult: 6.0,  legendMode: true  },
 ];
 
 const NETS = [
@@ -467,6 +467,30 @@ class FishingGameEngine {
     this.state.reelingEntryTime = 0;
     this.state.nextEncounterRoll = 0;
     this.state.encounters = [];
+
+    // Lure bonus: attract extra fish each cast — no maxAmbient cap
+    const lureItem = LURES.find(l => l.id === this.state.lure);
+    if (lureItem && lureItem.spawnMult > 1.0) {
+      if (lureItem.legendMode) {
+        // Legend Lure: flood ocean with minnows and occasional krakens
+        for (let i = 0; i < 80; i++) {
+          const f = Math.random() < 0.05
+            ? FISH.find(f => f.id === 'kraken')
+            : FISH.find(f => f.id === 'minnow');
+          this.state.swimmers.push(mkSwimmer(f));
+        }
+      } else {
+        // Regular lures: bonus trials per species, uncapped by maxAmbient
+        const bonusTrials = Math.round(15 * (lureItem.spawnMult - 1.0));
+        for (const f of FISH) {
+          for (let i = 0; i < bonusTrials; i++) {
+            if (Math.random() < f.spawnRate) {
+              this.state.swimmers.push(mkSwimmer(f));
+            }
+          }
+        }
+      }
+    }
 
     const netItem = NETS.find((x) => x.id === this.state.net);
     const numLines = netItem?.max || 1;
