@@ -46,7 +46,7 @@ const FISH = [
   { id: "anglerfish",name: "Anglerfish",      w: 10,   v: 200,  L: 100, H: 88,  c: "#281430", fc: "#180828", res: 28, mn: 0.58, mx: 0.84, spawnRate: 0.68, maxAmbient: 8  },
   { id: "viperfish", name: "Viperfish",       w: 6,    v: 180,  L: 140, H: 30,  c: "#102830", fc: "#081820", res: 24, mn: 0.60, mx: 0.85, spawnRate: 0.68, maxAmbient: 8  },
   { id: "whale",     name: "Blue Whale",      w: 200,  v: 850,  L: 580, H: 170, c: "#284868", fc: "#101e30", res: 55, mn: 0.65, mx: 0.88, spawnRate: 0.30, maxAmbient: 5  },
-  { id: "kraken",    name: "Kraken",          w: 999,  v: 2000, L: 340, H: 340, c: "#380050", fc: "#180020", res: 80, mn: 0.84, mx: 0.98, spawnRate: 0.001,maxAmbient: 1  },
+  { id: "kraken",    name: "Kraken",          w: 999,  v: 2000, L: 340, H: 340, c: "#380050", fc: "#180020", res: 80, mn: 0.84, mx: 0.98, spawnRate: 0.05, maxAmbient: 2  },
 ];
 
 const RODS = [
