@@ -1,4 +1,5 @@
 .DS_Store
+games/.DS_Store
 
 # Node / frontend
 node_modules/
